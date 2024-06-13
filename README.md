@@ -1,2 +1,1 @@
-# travelBot
-Sistema de información con AI
+Archivo Webhook para un chat ¡bot de Whatsapp

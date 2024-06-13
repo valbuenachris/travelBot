@@ -54,123 +54,13 @@ try {
                 case ($pedido && $pedido['status'] == 'registrar' && ($pedido['nombre'] == 'Sin Nombre')):
                     $responseData = manejarEstadoRegistrar($pdo, $from, $message);
                     break;
-                case ($pedido && ($pedido['perfil'] == 'cantidades')):
-                    $responseData = agregarCantidades($pdo, $from, $message);
+                case ($pedido && $pedido['status'] == 'consulta'):
+                    $responseData = buscarProducto($pdo, $from, $message);
                     break;
                
-                case (($pedido['perfil'] == 'comprar')):
-                    $responseData = comprar($pdo, $from, $message);
-                    break;
-                
-                case ($pedido && ($pedido['status'] == 'nombreCliente')):
-                    $responseData = nombreCliente($pdo, $from, $message);
-                    break;
-                case ($pedido && ($pedido['status'] == 'direccionCliente')):
-                    $responseData = direccionCliente($pdo, $from, $message);
-                    break;
-                case ($pedido && ($pedido['status'] == 'ciudadCliente')):
-                    $responseData = ciudadCliente($pdo, $from, $message);
-                    break;
-                
-                // Comparación de mensajes ignorando acentos
-                case (strpos(remove_accents(strtolower($message)), 'tonico despigmentante') !== false):
-                    $responseData = tonico($pdo, $from);
-                    break;
-                
-                // Comparación de mensajes ignorando acentos
-                case (strpos(remove_accents(strtolower($message)), 'rutina') !== false):
-                    $responseData = rutina($pdo, $from);
-                    break;
-                
-                case (strpos(strtolower($message), 'horario') !== false || strpos(strtolower($message), 'horas atienden') !== false 
-                || strpos(strtolower($message), 'horas hay atencion') !== false || strpos(strtolower($message), 'horas hay servicio') !== false
-                || strpos(strtolower($message), 'hora hay servicio') !== false):
-                    $responseData = horario($pdo, $from);
-                    break;
-                    
-                case (strpos(strtolower($message), 'ubicados') !== false || strpos(strtolower($message), 'direccion') !== false || strpos(strtolower($message), 'dirección') !== false 
-                || strpos(strtolower($message), 'ubicación') !== false || strpos(strtolower($message), 'ubicacion') !== false):
-                    $responseData = ubicacion($pdo, $from);
-                    break;
-                
-                case (strpos(strtolower($message), 'distribuidora') !== false || strpos(strtolower($message), 'vender al por mayor') !== false 
-                || strpos(strtolower($message), 'mayorista') !== false):
-                    $responseData = mayorista($pdo, $from);
-                    break;
-                
-                // Comparación de mensajes ignorando acentos
-                case (strpos(remove_accents(strtolower($message)), 'tonico es garantizado') !== false 
-                || strpos(remove_accents(strtolower($message)), 'garantia tiene el tonico' ) !== false
-                || strpos(remove_accents(strtolower($message)), 'garantia del tonico' ) !== false):
-                    $responseData = garantizado($pdo, $from);
-                    break;
-                
-                // Comparación de mensajes ignorando acentos
-                case (strpos(remove_accents(strtolower($message)), 'garantizado') !== false || strpos(remove_accents(strtolower($message)), 'garantia') !== false):
-                    $responseData = garantizadoTonico($pdo, $from);
-                    break;
-                    
-                // Comparación de mensajes ignorando acentos
-                case (strpos(remove_accents(strtolower($message)), 'componentes del tonico') !== false 
-                || strpos(remove_accents(strtolower($message)), 'componentes de tonico' ) !== false
-                || strpos(remove_accents(strtolower($message)), 'componente del tonico' ) !== false
-                || strpos(remove_accents(strtolower($message)), 'componentes tiene el tonico' ) !== false):
-                    $responseData = componentes($pdo, $from);
-                    break;
-                    
-                // Comparación de mensajes ignorando acentos
-                case (strpos(remove_accents(strtolower($message)), 'componentes' ) !== false || strpos(remove_accents(strtolower($message)), 'ingredientes' ) !== false):
-                    $responseData = componentesTonico($pdo, $from);
-                    break;
-                
-                case (strpos(strtolower($message), 'manchas de por vida') !== false || strpos(strtolower($message), 'tratar las manchas') !== false 
-                || strpos(strtolower($message), 'tratar unas manchas') !== false
-                || strpos(strtolower($message), 'tratamiento de manchas') !== false || strpos(strtolower($message), 'tratamiento para las manchas' ) !== false
-                || strpos(strtolower($message), 'tratamiento para manchas' ) !== false || strpos(strtolower($message), 'manchas se tratan de por vida' ) !== false
-                || strpos(strtolower($message), 'tratan las manchas' ) !== false || strpos(strtolower($message), 'manchas son de por vida' ) !== false
-                || strpos(strtolower($message), 'quitar las manchas' ) !== false || strpos(strtolower($message), 'tengo manchas' ) !== false):
-                    $responseData = manchas($pdo, $from);
-                    break;
-                
-                // Comparación de mensajes ignorando acentos
-                case (strpos(remove_accents(strtolower($message)), 'resultado') !== false):
-                    $responseData = resultados($pdo, $from);
-                    break;
-                    
-                // Comparación de mensajes ignorando acentos
-                case (strpos(remove_accents(strtolower($message)), 'faq') !== false):
-                    $responseData = preguntas($pdo, $from);
-                    break;
-                    
-                case (strpos(remove_accents(strtolower($message)), 'enrojecimiento' ) !== false || strpos(remove_accents(strtolower($message)), 'ardor' ) !== false
-                || strpos(remove_accents(strtolower($message)), 'irritacion' ) !== false || strpos(remove_accents(strtolower($message)), 'cara quemada' ) !== false
-                || strpos(remove_accents(strtolower($message)), 'resequedad' ) !== false || strpos(remove_accents(strtolower($message)), 'reseca' ) !== false):
-                    $responseData = enrojecimiento($pdo, $from);
-                    break;
-                    
-                case (strpos(strtolower($message), 'catalogo') !== false || strpos(strtolower($message), 'catálogo') !== false):
-                    $responseData = catalogo($pdo, $from);
-                    break;
-                
-                case (strpos(strtolower($message), 'contraentrega') !== false || strpos(strtolower($message), 'contra entrega') !== false):
-                    $responseData = contraentrega($pdo, $from);
-                    break;
-                    
                 case (strtolower($message) == 'menu'):
                     $responseData = menu($pdo, $from);
                     break;
-                    
-                case (strtolower($message) == 'fin'):
-                    $responseData = finalizarCompra($pdo, $from);
-                    break;
-                case (strtolower($message) == 'saldo'):
-                    $responseData = verCompra($pdo, $from);
-                    break;
-                case (strtolower($message) == 'rc'):
-                    $responseData = registrarCliente($pdo, $from);
-                    break;
-                    
-                    
                     
                 case (strtolower($message) == '0'):
                     $responseData = cero($pdo, $from);
